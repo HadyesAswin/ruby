@@ -23,9 +23,22 @@ const SubscriberStatusModal = (props) => {
         onSuccess() // refresh the list
       })
       .catch((payload) => {
-        const error = payload?.response?.data?.message || 'Something went wrong'
-        alert(error)  // show notification
-        console.error(error)
+  //       const error = payload?.response?.data?.message || 'Something went wrong'
+  //       alert(error)  // show notification
+  //       console.error(error)
+  //       if (props.onError) {
+  //       props.onError(error);
+  // }
+          const error =
+            payload?.response?.data?.errors?.join(', ') ||
+            payload?.response?.data?.message ||
+            'Something went wrong';
+
+          console.error(error);
+
+          if (props.onError) {
+            props.onError(error);
+          }
       })
       .finally(() => {
         setIsDeleting(false)
