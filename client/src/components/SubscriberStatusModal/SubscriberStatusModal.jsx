@@ -13,31 +13,39 @@ const SubscriberStatusModal = (props) => {
   const [isDeleting, setIsDeleting] = useState(false)
 
   const onUpdate = () => {
-    const payload = {
-      status: status === 'active' ? 'inactive' : 'active'
+  const payload = {
+      status: status === 'subscribed' ? 'unsubscribed' : 'subscribed'
     }
 
     setIsDeleting(true)
     updateSubscriber(subscriberId, payload)
-    .then(() => {
-      onSuccess()
-    })
-    .catch((payload) => {
-      const error = payload?.response?.data?.message || 'Something went wrong'
-      console.error(error)
-    })
-    .finally(() => {
-      setIsDeleting(false)
-    })
+      .then(() => {
+        onSuccess() // refresh the list
+      })
+      .catch((payload) => {
+        const error = payload?.response?.data?.message || 'Something went wrong'
+        alert(error)  // show notification
+        console.error(error)
+      })
+      .finally(() => {
+        setIsDeleting(false)
+      })
   }
 
-  const modalTitleText = status === 'active' ? 
-    "Unsubscribe" : "Resubscribe"
-  const messageBodyText = status === 'active' ? 
-    "Are you sure you'd like to unsubscribe this subscriber?" :
-    "Are you sure you'd like to resubscribe this subscriber?"
-  const buttonText = status === 'active' ? 
-    "Unsubscribe" : "Resubscribe"
+
+  // const modalTitleText = status === 'active' ? 
+  //   "Unsubscribe" : "Resubscribe"
+  // const messageBodyText = status === 'active' ? 
+  //   "Are you sure you'd like to unsubscribe this subscriber?" :
+  //   "Are you sure you'd like to resubscribe this subscriber?"
+  // const buttonText = status === 'active' ? 
+  //   "Unsubscribe" : "Resubscribe"
+  const modalTitleText = status === 'subscribed' ? "Unsubscribe" : "Resubscribe"
+  const messageBodyText = status === 'subscribed'
+    ? "Are you sure you'd like to unsubscribe this subscriber?"
+    : "Are you sure you'd like to resubscribe this subscriber?"
+  const buttonText = modalTitleText
+
 
   return (
     <Modal modalTitle={modalTitleText} showModal={isOpen} onCloseModal={onClose}>

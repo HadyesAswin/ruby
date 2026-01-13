@@ -63,11 +63,43 @@ class SubscribersController < ApplicationController
     }, status: :ok
   end
 
+  # def create
+  #   render json: {message: "Subscriber created successfully"}, formats: :json, status: :created
+  # end
   def create
-    render json: {message: "Subscriber created successfully"}, formats: :json, status: :created
+    subscriber = Subscriber.new(subscriber_params)
+
+    if subscriber.save
+      render json: { subscriber: subscriber }, status: :created
+    else
+      render json: { errors: subscriber.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
+  
+
+  # def update
+  #   render json: {message: "Subscriber updated successfully"}, formats: :json, status: :ok
+  # end
   def update
-    render json: {message: "Subscriber updated successfully"}, formats: :json, status: :ok
+    subscriber = Subscriber.find_by(id: params[:id])
+
+    return render json: { message: "Subscriber not found" }, status: :not_found unless subscriber
+
+    if subscriber.update(update_subscriber_params)
+      render json: { subscriber: subscriber }, status: :ok
+    else
+      render json: { errors: subscriber.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def subscriber_params
+    params.require(:subscriber).permit(:name, :email)
+  end
+
+  def update_subscriber_params
+    params.require(:subscriber).permit(:status)
   end
 end

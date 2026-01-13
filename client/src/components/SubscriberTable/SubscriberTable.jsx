@@ -48,8 +48,8 @@ const SubscriberTable = (props) => {
                       <StatusPill value={subscriber.status} />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button className="text-primary-gold-600 hover:text-primary-gold-900 underline" onClick={() => onChangeStatusSelected(subscriber.id, subscriber.status)}>
-                        {subscriber.status === 'active' ? 'Unsubscribe' : 'Subscribe'}
+                      <button className="px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded" onClick={() => onChangeStatusSelected(subscriber.id, subscriber.status)}>
+                        {subscriber.status === 'subscribed' ? 'Unsubscribe' : 'Subscribe'}
                       </button>
                     </td>
                   </tr>
