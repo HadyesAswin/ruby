@@ -1,6 +1,9 @@
 # This file is used by Rack-based servers to start the application.
-require 'dotenv'
-Dotenv.load
+begin
+  require 'dotenv'
+  Dotenv.load
+rescue LoadError
+end
 require "rack/cors"
 require_relative "config/environment"
 
