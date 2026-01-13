@@ -70,11 +70,12 @@ class SubscribersController < ApplicationController
     subscriber = Subscriber.new(subscriber_params)
 
     if subscriber.save
-      render json: { subscriber: subscriber }, status: :created
+      render json: { message: "Subscriber created successfully", subscriber: subscriber }, status: :created
     else
-      render json: { errors: subscriber.errors.full_messages }, status: :unprocessable_entity
+      render json: { message: subscriber.errors.full_messages.join(", ") }, status: :unprocessable_entity
     end
   end
+
 
   
 
@@ -83,15 +84,15 @@ class SubscribersController < ApplicationController
   # end
   def update
     subscriber = Subscriber.find_by(id: params[:id])
-
     return render json: { message: "Subscriber not found" }, status: :not_found unless subscriber
 
     if subscriber.update(update_subscriber_params)
-      render json: { subscriber: subscriber }, status: :ok
+      render json: { message: "Subscriber updated successfully", subscriber: subscriber }, status: :ok
     else
-      render json: { errors: subscriber.errors.full_messages }, status: :unprocessable_entity
+      render json: { message: subscriber.errors.full_messages.join(", ") }, status: :unprocessable_entity
     end
   end
+
 
   private
 
